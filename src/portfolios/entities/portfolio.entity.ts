@@ -5,7 +5,7 @@ import Page from './page.entity';
 import { AbstractEntity } from './abstract-entity';
 
 @ObjectType('Portfolio')
-@Entity()
+@Entity('portfolios')
 export default class Portfolio extends AbstractEntity {
   @Field()
   @Column('varchar', { name: 'name', nullable: false, length: 255 })

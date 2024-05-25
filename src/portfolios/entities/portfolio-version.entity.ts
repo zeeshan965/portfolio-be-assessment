@@ -6,7 +6,7 @@ import Portfolio from './portfolio.entity';
 import { AbstractEntity } from './abstract-entity';
 
 @ObjectType('PortfolioVersion')
-@Entity()
+@Entity('portfolio_versions')
 export default class PortfolioVersion extends AbstractEntity {
   @Field()
   @Column('enum', { name: 'version_type', enum: VersionType })
