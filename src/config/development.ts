@@ -13,7 +13,7 @@ const config: ConfigInterface = {
     logging: true,
 
     cache: false,
-    dropSchema: true,
+    dropSchema: false,
     entities: ['src/**/entities/*.ts'],
     logger: 'advanced-console' as const,
   },

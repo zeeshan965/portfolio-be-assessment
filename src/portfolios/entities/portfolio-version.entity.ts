@@ -16,6 +16,7 @@ export default class PortfolioVersion extends AbstractEntity {
   @JoinColumn({ name: 'portfolio_id' })
   portfolio: Portfolio;
 
+  @Field(() => [PortfolioPage], { nullable: 'itemsAndList' })
   @OneToMany(() => PortfolioPage, (portfolioPage) => portfolioPage.version)
   portfolioPages: PortfolioPage[];
 }

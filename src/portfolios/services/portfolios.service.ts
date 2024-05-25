@@ -5,6 +5,7 @@ import { PageInputDto, CreatePortfolioDto } from '../dto/create-portfolio.dto';
 import PortfolioPage from '../entities/portfolio-page.entity';
 import PortfolioVersion from '../entities/portfolio-version.entity';
 import Page from '../entities/page.entity';
+import { VersionType } from '../../helpers/enum';
 
 @Service()
 export class PortfolioService {
@@ -72,5 +73,27 @@ export class PortfolioService {
       });
     });
     return portfolio;
+  }
+
+  /**
+   * @return Promise<Portfolio[]>
+   */
+  async listPublishedPortfolio(): Promise<Portfolio[]> {
+    return this.portfolioRepository
+      .createQueryBuilder('p')
+      .innerJoinAndSelect('p.portfolioVersions', 'pv', 'pv.version_type = :type', { type: VersionType.PUBLISHED })
+      .getMany();
+  }
+
+  async getPortfolioById(id: number): Promise<Portfolio> {
+    const portfolioRepository = getRepository(Portfolio);
+    const data = await portfolioRepository.findOne({
+      relations: ['portfolioVersions', 'portfolioVersions.portfolioPages'],
+      where: { id },
+    });
+    console.log(data);
+    return this.portfolioRepository.findOneOrFail(id, {
+      relations: ['portfolioVersions', 'portfolioVersions.portfolioPages', 'portfolioVersions.portfolioPages.page'],
+    });
   }
 }

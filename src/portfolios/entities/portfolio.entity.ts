@@ -14,6 +14,7 @@ export default class Portfolio extends AbstractEntity {
   @Column('varchar', { name: 'url', nullable: false, unique: true, length: 255 })
   url: string;
 
+  @Field(() => [PortfolioVersion], { nullable: 'itemsAndList' })
   @OneToMany(() => PortfolioVersion, (portfolioVersion) => portfolioVersion.portfolio)
   portfolioVersions: PortfolioVersion[];
 }
