@@ -6,7 +6,7 @@ import { Field, GraphQLISODateTime, ID, ObjectType } from 'type-graphql';
 export abstract class AbstractEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   @Field(() => ID)
-  id: string;
+  id: number;
 
   @CreateDateColumn({
     name: 'created_at',

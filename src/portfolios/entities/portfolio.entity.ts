@@ -11,7 +11,7 @@ export default class Portfolio extends AbstractEntity {
   name: string;
 
   @Field()
-  @Column('varchar', { name: 'url', nullable: false, unique: true, length: 255 })
+  @Column('varchar', { name: 'url', nullable: false, length: 255 })
   url: string;
 
   @Field(() => [PortfolioVersion], { nullable: 'itemsAndList' })
