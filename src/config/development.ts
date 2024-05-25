@@ -3,13 +3,19 @@ import ConfigInterface from './ConfigInterface';
 const config: ConfigInterface = {
   env: 'development',
   database: {
-    type: 'sqlite' as const,
+    type: 'mysql',
+    host: 'localhost',
+    port: 3306,
+    username: 'root',
+    password: 'root',
+    database: 'digication_assessment',
+    synchronize: true,
+    logging: true,
+
     cache: false,
-    database: ':memory:',
     dropSchema: true,
     entities: ['src/**/entities/*.ts'],
     logger: 'advanced-console' as const,
-    synchronize: true,
   },
   graphQLPath: '/graphql',
   resolvers: [`${__dirname}/../**/resolvers/*.resolver.ts`],

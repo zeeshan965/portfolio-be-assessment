@@ -17,6 +17,9 @@ export default class Page {
   @Column('varchar', { nullable: false, unique: true })
   url: string;
 
+  @Column()
+  versionId: number;
+
   @ManyToOne(() => PortfolioVersion, { nullable: false })
   version: PortfolioVersion;
 }

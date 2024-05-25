@@ -2,12 +2,7 @@ import { Field, ObjectType } from 'type-graphql';
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
 import PortfolioEntity from './portfolio.entity';
 import Page from './page.entity';
-
-export enum VersionType {
-  DRAFT = 'draft',
-  PUBLISHED = 'published',
-  SNAPSHOT = 'snapshot'
-}
+import { VersionType } from '../../helpers/enum';
 
 @ObjectType('PortfolioVersion')
 @Entity()
@@ -17,8 +12,11 @@ export default class PortfolioVersion {
   id: number;
 
   @Field()
-  @Column('varchar', { nullable: false })
-  versionType: string; // draft, published, snapshot
+  @Column('enum', { enum: VersionType })
+  versionType: VersionType;
+
+  @Column()
+  portfolioId: number;
 
   @ManyToOne(() => PortfolioEntity, (portfolio) => portfolio.versions, { nullable: false })
   portfolio: PortfolioEntity;
