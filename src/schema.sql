@@ -17,7 +17,7 @@ CREATE TABLE pages (
 );
 
 -- Create versions Table
-CREATE TABLE versions (
+CREATE TABLE portfolio_versions (
                           id INT PRIMARY KEY AUTO_INCREMENT,
                           portfolio_id INT,
                           version_type ENUM('draft', 'published', 'snapshot') NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE portfolio_pages (
                                  page_id INT,
                                  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                                  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                                 FOREIGN KEY (version_id) REFERENCES versions(id),
+                                 FOREIGN KEY (version_id) REFERENCES portfolio_versions(id),
                                  FOREIGN KEY (page_id) REFERENCES pages(id)
 );
 
@@ -56,12 +56,12 @@ INSERT INTO pages (name, url) VALUES ('Page 2', 'https://portfolio2.com/page2');
 
 -- Insert into versions Table
 -- For Portfolio 1
-INSERT INTO versions (portfolio_id, version_type) VALUES (1, 'draft');
-INSERT INTO versions (portfolio_id, version_type) VALUES (1, 'published');
-INSERT INTO versions (portfolio_id, version_type) VALUES (1, 'snapshot');
-INSERT INTO versions (portfolio_id, version_type) VALUES (1, 'snapshot');
-INSERT INTO versions (portfolio_id, version_type) VALUES (1, 'snapshot');
-INSERT INTO versions (portfolio_id, version_type) VALUES (1, 'snapshot');
+INSERT INTO portfolio_versions (portfolio_id, version_type) VALUES (1, 'draft');
+INSERT INTO portfolio_versions (portfolio_id, version_type) VALUES (1, 'published');
+INSERT INTO portfolio_versions (portfolio_id, version_type) VALUES (1, 'snapshot');
+INSERT INTO portfolio_versions (portfolio_id, version_type) VALUES (1, 'snapshot');
+INSERT INTO portfolio_versions (portfolio_id, version_type) VALUES (1, 'snapshot');
+INSERT INTO portfolio_versions (portfolio_id, version_type) VALUES (1, 'snapshot');
 
 -- Insert into portfolio_pages Table
 -- For Portfolio 1, Draft Version
@@ -106,8 +106,8 @@ SELECT
     pp.created_at AS page_created_at,
     pp.updated_at AS page_updated_at
 FROM portfolios p
-JOIN versions v ON p.id = v.portfolio_id
-JOIN portfolio_pages pp ON v.id = pp.version_id
-JOIN pages pg ON pp.page_id = pg.id
+         JOIN portfolio_versions v ON p.id = v.portfolio_id
+         JOIN portfolio_pages pp ON v.id = pp.version_id
+         JOIN pages pg ON pp.page_id = pg.id
 WHERE p.id = 1
 ORDER BY v.id, pp.created_at;

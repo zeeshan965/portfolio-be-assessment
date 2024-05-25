@@ -42,9 +42,8 @@ export class PortfolioService {
    */
   async createPortFolio(createPortfolioDto: CreatePortfolioDto): Promise<Portfolio> {
     const { name, url, pages } = createPortfolioDto;
-    console.log(name, url);
+
     // Create and save the portfolio
-    // this.portfolioRepository.create({ name, url });
     const portfolio = await this.portfolioRepository.save({
       name,
       url,
@@ -52,8 +51,10 @@ export class PortfolioService {
 
     // Create and save the draft version
     const version = await this.portfolioVersionRepository.save({
-      ...portfolio,
       version_type: 'draft',
+      portfolio: {
+        id: portfolio.id,
+      },
     });
 
     // Create and save the pages, linking them to the draft version
@@ -62,8 +63,12 @@ export class PortfolioService {
         ...page,
       });
       await this.portfolioPageRepository.save({
-        ...version,
-        ...insertPage,
+        version: {
+          id: version.id,
+        },
+        page: {
+          id: insertPage.id,
+        },
       });
     });
     return portfolio;

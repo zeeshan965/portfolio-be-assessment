@@ -4,7 +4,7 @@ import { Field, GraphQLISODateTime, ID, ObjectType } from 'type-graphql';
 
 @ObjectType()
 export abstract class AbstractEntity extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   @Field(() => ID)
   id: string;
 
@@ -12,7 +12,7 @@ export abstract class AbstractEntity extends BaseEntity {
     name: 'created_at',
     type: 'timestamp',
     precision: 6,
-    default: () => 'CURRENT_TIMESTAMP(6)'
+    default: () => 'CURRENT_TIMESTAMP(6)',
   })
   @Field(() => GraphQLISODateTime)
   createdAt: Date;
@@ -22,7 +22,7 @@ export abstract class AbstractEntity extends BaseEntity {
     name: 'updated_at',
     type: 'timestamp',
     precision: 6,
-    default: () => 'CURRENT_TIMESTAMP(6)'
+    default: () => 'CURRENT_TIMESTAMP(6)',
   })
   @Field(() => GraphQLISODateTime, { nullable: true })
   updatedAt: Date;

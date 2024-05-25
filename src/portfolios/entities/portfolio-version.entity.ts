@@ -1,5 +1,5 @@
 import { Field, ObjectType } from 'type-graphql';
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { VersionType } from '../../helpers/enum';
 import Portfolio from './portfolio.entity';
 import { AbstractEntity } from './abstract-entity';
@@ -13,6 +13,7 @@ export default class PortfolioVersion extends AbstractEntity {
   versionType: VersionType;
 
   @ManyToOne(() => Portfolio, (portfolio) => portfolio.portfolioVersions)
+  @JoinColumn({ name: 'portfolio_id' })
   portfolio: Portfolio;
 
   @OneToMany(() => PortfolioPage, (portfolioPage) => portfolioPage.version)
