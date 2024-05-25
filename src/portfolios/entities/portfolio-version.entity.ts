@@ -1,11 +1,11 @@
 import { Field, ObjectType } from 'type-graphql';
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
-import PortfolioEntity from './PortfolioEntity';
-import PageEntity from './PageEntity';
+import PortfolioEntity from './portfolio.entity';
+import Page from './page.entity';
 
 @ObjectType('PortfolioVersion')
 @Entity()
-export default class PortfolioVersionEntity {
+export default class PortfolioVersion {
   @Field()
   @PrimaryGeneratedColumn()
   id: number;
@@ -17,6 +17,6 @@ export default class PortfolioVersionEntity {
   @ManyToOne(() => PortfolioEntity, (portfolio) => portfolio.versions, { nullable: false })
   portfolio: PortfolioEntity;
 
-  @OneToMany(() => PageEntity, (page) => page.version)
-  pages: PageEntity[];
+  @OneToMany(() => Page, (page) => page.version)
+  pages: Page[];
 }

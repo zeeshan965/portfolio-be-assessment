@@ -1,6 +1,6 @@
 import faker from 'faker';
 import { DeepPartial, getRepository } from 'typeorm';
-import PortfolioEntity from '../../src/entities/PortfolioEntity';
+import PortfolioEntity from '../../src/portfolios/entities/PortfolioEntity';
 
 export function buildPortfolioEntity(properties?: DeepPartial<PortfolioEntity>) {
   const repository = getRepository(PortfolioEntity);

@@ -1,10 +1,10 @@
 import { Field, ObjectType } from 'type-graphql';
 import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import PortfolioVersionEntity from './PortfolioVersionEntity';
+import PortfolioVersion from './portfolio-version.entity';
 
 @ObjectType('Portfolio')
 @Entity()
-export default class PortfolioEntity {
+export default class Portfolio {
   @Field()
   @PrimaryGeneratedColumn()
   id: number;
@@ -17,6 +17,6 @@ export default class PortfolioEntity {
   @Column('varchar', { nullable: false, unique: true })
   url: string;
 
-  @OneToMany(() => PortfolioVersionEntity, (version) => version.portfolio)
-  versions: PortfolioVersionEntity[];
+  @OneToMany(() => PortfolioVersion, (version) => version.portfolio)
+  versions: PortfolioVersion[];
 }

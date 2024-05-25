@@ -1,4 +1,4 @@
-import PortfolioEntity from '../../src/entities/PortfolioEntity';
+import PortfolioEntity from '../../src/portfolios/entities/PortfolioEntity';
 import createApolloServer from '../test_helpers/createApolloServer';
 import createPortfolioEntity from '../test_helpers/createPortfolioHelper';
 

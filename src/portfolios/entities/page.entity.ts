@@ -1,10 +1,10 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
-import PortfolioVersionEntity from './PortfolioVersionEntity';
+import PortfolioVersion from './portfolio-version.entity';
 
-@ObjectType('PageEntity')
+@ObjectType('Page')
 @Entity()
-export default class PageEntity {
+export default class Page {
   @Field()
   @PrimaryGeneratedColumn()
   id: number;
@@ -17,6 +17,6 @@ export default class PageEntity {
   @Column('varchar', { nullable: false, unique: true })
   url: string;
 
-  @ManyToOne(() => PortfolioVersionEntity, { nullable: false })
-  version: PortfolioVersionEntity;
+  @ManyToOne(() => PortfolioVersion, { nullable: false })
+  version: PortfolioVersion;
 }

@@ -7,12 +7,12 @@ const config: ConfigInterface = {
     cache: false,
     database: ':memory:',
     dropSchema: true,
-    entities: ['src/entities/*.ts'],
+    entities: ['src/**/entities/*.ts'],
     logger: 'advanced-console' as const,
     synchronize: true,
   },
   graphQLPath: '/graphql',
-  resolvers: [`${__dirname}/../resolvers/**/*Resolver.ts`],
+  resolvers: [`${__dirname}/../**/resolvers/*.resolver.ts`],
 };
 
 export default config;

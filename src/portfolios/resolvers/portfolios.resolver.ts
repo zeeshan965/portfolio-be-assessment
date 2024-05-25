@@ -1,15 +1,14 @@
 import { Query, Resolver } from 'type-graphql';
 import { Service } from 'typedi';
 import { getRepository } from 'typeorm';
-
-import PortfolioEntity from '../entities/PortfolioEntity';
+import Portfolio from '../entities/portfolio.entity';
 
 @Resolver()
 @Service()
 export default class ListPortfoliosResolver {
-  @Query(() => [PortfolioEntity],{ description: 'List all portfolios' })
-  async listPortfolios(): Promise<PortfolioEntity[]> {
-    const portfolioRepository = getRepository(PortfolioEntity);
+  @Query(() => [Portfolio],{ description: 'List all portfolios' })
+  async listPortfolios(): Promise<Portfolio[]> {
+    const portfolioRepository = getRepository(Portfolio);
 
     return portfolioRepository
       .createQueryBuilder('p')
