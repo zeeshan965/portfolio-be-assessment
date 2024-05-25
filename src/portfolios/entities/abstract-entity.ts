@@ -10,8 +10,9 @@ export abstract class AbstractEntity extends BaseEntity {
 
   @CreateDateColumn({
     name: 'created_at',
-    type: 'timestamp with time zone',
-    default: () => 'CURRENT_TIMESTAMP',
+    type: 'timestamp',
+    precision: 6,
+    default: () => 'CURRENT_TIMESTAMP(6)'
   })
   @Field(() => GraphQLISODateTime)
   createdAt: Date;
@@ -19,8 +20,9 @@ export abstract class AbstractEntity extends BaseEntity {
   @Exclude()
   @UpdateDateColumn({
     name: 'updated_at',
-    type: 'timestamp with time zone',
-    default: () => 'CURRENT_TIMESTAMP',
+    type: 'timestamp',
+    precision: 6,
+    default: () => 'CURRENT_TIMESTAMP(6)'
   })
   @Field(() => GraphQLISODateTime, { nullable: true })
   updatedAt: Date;
