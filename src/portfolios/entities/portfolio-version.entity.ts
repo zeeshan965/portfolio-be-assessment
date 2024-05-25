@@ -1,26 +1,23 @@
 import { Field, ObjectType } from 'type-graphql';
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
-import PortfolioEntity from './portfolio.entity';
+import { Column, Entity, ManyToOne } from 'typeorm';
 import Page from './page.entity';
 import { VersionType } from '../../helpers/enum';
+import Portfolio from './portfolio.entity';
+import { AbstractEntity } from './abstract-entity';
 
 @ObjectType('PortfolioVersion')
 @Entity()
-export default class PortfolioVersion {
+export default class PortfolioVersion extends AbstractEntity {
   @Field()
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Field()
-  @Column('enum', { enum: VersionType })
+  @Column('enum', { name: 'version_type', enum: VersionType })
   versionType: VersionType;
 
-  @Column()
-  portfolioId: number;
+  @Column({ name: 'version_number', type: 'int' })
+  versionNumber: number;
 
-  @ManyToOne(() => PortfolioEntity, (portfolio) => portfolio.versions, { nullable: false })
-  portfolio: PortfolioEntity;
+  @ManyToOne(() => Portfolio, (portfolio) => portfolio.portfolioVersions)
+  portfolio: Portfolio;
 
-  @OneToMany(() => Page, (page) => page.version)
-  pages: Page[];
+  @ManyToOne(() => Page, (page) => page.portfolioVersions)
+  page: Page;
 }

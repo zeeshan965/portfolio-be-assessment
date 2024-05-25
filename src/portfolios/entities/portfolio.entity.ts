@@ -1,22 +1,23 @@
 import { Field, ObjectType } from 'type-graphql';
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import PortfolioVersion from './portfolio-version.entity';
+import Page from './page.entity';
+import { AbstractEntity } from './abstract-entity';
 
 @ObjectType('Portfolio')
 @Entity()
-export default class Portfolio {
+export default class Portfolio extends AbstractEntity {
   @Field()
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Field()
-  @Column('varchar', { nullable: false })
+  @Column('varchar', { name: 'name', nullable: false, length: 255 })
   name: string;
 
   @Field()
-  @Column('varchar', { nullable: false, unique: true })
+  @Column('varchar', { name: 'url', nullable: false, unique: true, length: 255 })
   url: string;
 
-  @OneToMany(() => PortfolioVersion, (version) => version.portfolio)
-  versions: PortfolioVersion[];
+  @OneToMany(() => Page, (page) => page.portfolio)
+  pages: Page[];
+
+  @OneToMany(() => PortfolioVersion, (portfolioVersion) => portfolioVersion.portfolio)
+  portfolioVersions: PortfolioVersion[];
 }
