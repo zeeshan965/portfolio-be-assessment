@@ -1,75 +1,113 @@
--- Portfolio Table
-CREATE TABLE Portfolio (
-                           portfolio_id INT PRIMARY KEY,
-                           name VARCHAR(255) NOT NULL,
-                           url VARCHAR(255),
-                           created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                           updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+-- Create portfolios Table
+CREATE TABLE portfolios (
+                            id INT PRIMARY KEY AUTO_INCREMENT,
+                            name VARCHAR(255) NOT NULL,
+                            url VARCHAR(255),
+                            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Page Table
-CREATE TABLE Page (
-                      page_id INT PRIMARY KEY,
-                      name VARCHAR(255) NOT NULL,
-                      url VARCHAR(255),
-                      description TEXT,
-                      portfolio_id INT,
-                      FOREIGN KEY (portfolio_id) REFERENCES Portfolio(portfolio_id)
+-- Create pages Table
+CREATE TABLE pages (
+                       id INT PRIMARY KEY AUTO_INCREMENT,
+                       name VARCHAR(255) NOT NULL,
+                       url VARCHAR(255),
+                       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- PortfolioVersion Table
-CREATE TABLE PortfolioVersion (
-                                  version_id INT PRIMARY KEY,
-                                  portfolio_id INT,
-                                  page_id INT,
-                                  version_type ENUM('draft', 'published', 'snapshot') NOT NULL,
-                                  version_number INT,
-                                  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                                  FOREIGN KEY (portfolio_id) REFERENCES Portfolio(portfolio_id),
-                                  FOREIGN KEY (page_id) REFERENCES Page(page_id)
+-- Create versions Table
+CREATE TABLE versions (
+                          id INT PRIMARY KEY AUTO_INCREMENT,
+                          portfolio_id INT,
+                          version_type ENUM('draft', 'published', 'snapshot') NOT NULL,
+                          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                          FOREIGN KEY (portfolio_id) REFERENCES portfolios(id)
 );
 
+-- Create portfolio_pages Table
+CREATE TABLE portfolio_pages (
+                                 id INT PRIMARY KEY AUTO_INCREMENT,
+                                 version_id INT,
+                                 page_id INT,
+                                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                                 FOREIGN KEY (version_id) REFERENCES versions(id),
+                                 FOREIGN KEY (page_id) REFERENCES pages(id)
+);
 
-INSERT INTO Portfolio (portfolio_id, name, url)
-VALUES
-    (1, 'Tech Portfolio', 'http://techportfolio.com'),
-    (2, 'Art Portfolio', 'http://artportfolio.com');
+-- Insert into portfolios Table
+INSERT INTO portfolios (name, url) VALUES ('Portfolio 1', 'http://portfolio1.com');
+INSERT INTO portfolios (name, url) VALUES ('Portfolio 2', 'http://portfolio2.com');
 
+-- Insert into pages Table
+INSERT INTO pages (name, url) VALUES ('Page 1', 'https://portfolio1.com/page1');
+INSERT INTO pages (name, url) VALUES ('Page 2', 'https://portfolio1.com/page2');
+INSERT INTO pages (name, url) VALUES ('Page 3', 'https://portfolio1.com/page3');
+INSERT INTO pages (name, url) VALUES ('Page 4', 'https://portfolio1.com/page4');
+INSERT INTO pages (name, url) VALUES ('Page 5', 'https://portfolio1.com/page5');
+INSERT INTO pages (name, url) VALUES ('Page 6', 'https://portfolio1.com/page6');
+INSERT INTO pages (name, url) VALUES ('Page 7', 'https://portfolio1.com/page7');
+INSERT INTO pages (name, url) VALUES ('Page 8', 'https://portfolio1.com/page8');
+INSERT INTO pages (name, url) VALUES ('Page 9', 'https://portfolio1.com/page9');
+INSERT INTO pages (name, url) VALUES ('Page 1', 'https://portfolio2.com/page1');
+INSERT INTO pages (name, url) VALUES ('Page 2', 'https://portfolio2.com/page2');
 
-INSERT INTO Page (page_id, name, url, description, portfolio_id)
-VALUES
-    (1, 'Home Page', 'http://techportfolio.com/home', 'Welcome to the Tech Portfolio', 1),
-    (2, 'Projects Page', 'http://techportfolio.com/projects', 'List of projects', 1),
-    (3, 'Contact Page', 'http://techportfolio.com/contact', 'Contact information', 1),
-    (4, 'Gallery Page', 'http://artportfolio.com/gallery', 'Art Gallery', 2);
+-- Insert into versions Table
+-- For Portfolio 1
+INSERT INTO versions (portfolio_id, version_type) VALUES (1, 'draft');
+INSERT INTO versions (portfolio_id, version_type) VALUES (1, 'published');
+INSERT INTO versions (portfolio_id, version_type) VALUES (1, 'snapshot');
+INSERT INTO versions (portfolio_id, version_type) VALUES (1, 'snapshot');
+INSERT INTO versions (portfolio_id, version_type) VALUES (1, 'snapshot');
+INSERT INTO versions (portfolio_id, version_type) VALUES (1, 'snapshot');
 
--- Initial draft version for the Tech Portfolio
-INSERT INTO PortfolioVersion (version_id, portfolio_id, page_id, version_type, version_number, created_at)
-VALUES
-    (1, 1, 1, 'draft', 1, '2024-05-23 10:00:00'),
-    (2, 1, 2, 'draft', 1, '2024-05-23 10:00:00'),
-    (3, 1, 3, 'draft', 1, '2024-05-23 10:00:00');
+-- Insert into portfolio_pages Table
+-- For Portfolio 1, Draft Version
+INSERT INTO portfolio_pages (version_id, page_id) VALUES (1, 7);
+INSERT INTO portfolio_pages (version_id, page_id) VALUES (1, 8);
+INSERT INTO portfolio_pages (version_id, page_id) VALUES (1, 9);
 
--- Published version for the Tech Portfolio
-INSERT INTO PortfolioVersion (version_id, portfolio_id, page_id, version_type, version_number, created_at)
-VALUES
-    (4, 1, 1, 'published', 1, '2024-05-24 10:00:00'),
-    (5, 1, 2, 'published', 1, '2024-05-24 10:00:00'),
-    (6, 1, 3, 'published', 1, '2024-05-24 10:00:00');
+-- For Portfolio 1, Published Version
+INSERT INTO portfolio_pages (version_id, page_id) VALUES (2, 1);
+INSERT INTO portfolio_pages (version_id, page_id) VALUES (2, 2);
+INSERT INTO portfolio_pages (version_id, page_id) VALUES (2, 3);
 
--- Snapshot version for the Tech Portfolio
-INSERT INTO PortfolioVersion (version_id, portfolio_id, page_id, version_type, version_number, created_at)
-VALUES
-    (7, 1, 1, 'snapshot', 1, '2024-05-25 10:00:00'),
-    (8, 1, 2, 'snapshot', 1, '2024-05-25 10:00:00'),
-    (9, 1, 3, 'snapshot', 1, '2024-05-25 10:00:00');
+-- For Portfolio 1, Snapshot Version 1
+INSERT INTO portfolio_pages (version_id, page_id) VALUES (3, 1);
+INSERT INTO portfolio_pages (version_id, page_id) VALUES (3, 2);
 
--- Draft version for the Art Portfolio
-INSERT INTO PortfolioVersion (version_id, portfolio_id, page_id, version_type, version_number, created_at)
-VALUES
-    (10, 2, 4, 'draft', 1, '2024-05-23 10:00:00');
+-- For Portfolio 1, Snapshot Version 2
+INSERT INTO portfolio_pages (version_id, page_id) VALUES (4, 1);
+INSERT INTO portfolio_pages (version_id, page_id) VALUES (4, 2);
+INSERT INTO portfolio_pages (version_id, page_id) VALUES (4, 3);
 
--- Published version for the Art Portfolio
-INSERT INTO PortfolioVersion (version_id, portfolio_id, page_id, version_type, version_number, created_at)
-VALUES
-    (11, 2, 4, 'published', 1, '2024-05-24 10:00:00');
+-- For Portfolio 1, Snapshot Version 3
+INSERT INTO portfolio_pages (version_id, page_id) VALUES (5, 4);
+INSERT INTO portfolio_pages (version_id, page_id) VALUES (5, 5);
+INSERT INTO portfolio_pages (version_id, page_id) VALUES (5, 6);
+
+-- For Portfolio 1, Snapshot Version 4
+INSERT INTO portfolio_pages (version_id, page_id) VALUES (6, 7);
+INSERT INTO portfolio_pages (version_id, page_id) VALUES (6, 8);
+INSERT INTO portfolio_pages (version_id, page_id) VALUES (6, 9);
+
+-- Retrieve the first portfolio with all its versions and pages
+SELECT
+    p.id AS portfolio_id,
+    p.name AS portfolio_name,
+    p.url AS portfolio_url,
+    v.id AS version_id,
+    v.version_type,
+    pg.id AS page_id,
+    pg.name AS page_name,
+    pg.url AS page_url,
+    pp.created_at AS page_created_at,
+    pp.updated_at AS page_updated_at
+FROM portfolios p
+JOIN versions v ON p.id = v.portfolio_id
+JOIN portfolio_pages pp ON v.id = pp.version_id
+JOIN pages pg ON pp.page_id = pg.id
+WHERE p.id = 1
+ORDER BY v.id, pp.created_at;

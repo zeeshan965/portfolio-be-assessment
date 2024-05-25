@@ -1,8 +1,7 @@
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
-import PortfolioVersion from './portfolio-version.entity';
-import Portfolio from './portfolio.entity';
 import { AbstractEntity } from './abstract-entity';
+import PortfolioPage from './portfolio-page.entity';
 
 @ObjectType('Page')
 @Entity('pages')
@@ -15,9 +14,6 @@ export default class Page extends AbstractEntity {
   @Column('varchar', { name: 'url', nullable: false, unique: true, length: 255 })
   url: string;
 
-  @ManyToOne(() => Portfolio, (portfolio) => portfolio.pages)
-  portfolio: Portfolio;
-
-  @OneToMany(() => PortfolioVersion, (portfolioVersion) => portfolioVersion.page)
-  portfolioVersions: PortfolioVersion[];
+  @OneToMany(() => PortfolioPage, (portfolioPage) => portfolioPage.page)
+  portfolioPages: PortfolioPage[];
 }

@@ -1,13 +1,13 @@
 import { ApolloServer, Config as ApolloServerConfig } from 'apollo-server-koa';
 
 import { createSchema } from './createSchema';
+import { ExceptionHandler } from './exception.handler';
 
 export default function createApolloServer(apolloServerConfig?: ApolloServerConfig) {
-  const apolloServer = new ApolloServer({
+  return new ApolloServer({
     debug: true,
     schema: createSchema(),
+    formatError: ExceptionHandler,
     ...apolloServerConfig,
   });
-
-  return apolloServer;
 }
