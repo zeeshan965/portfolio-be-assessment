@@ -15,4 +15,9 @@ export default class ListPortfoliosResolver {
       .createQueryBuilder('p')
       .getMany();
   }
+
+  @Query(() => String)
+  index(): string {
+    return 'Nest JS GQL';
+  }
 }
