@@ -3,6 +3,12 @@ import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'ty
 import PortfolioEntity from './portfolio.entity';
 import Page from './page.entity';
 
+export enum VersionType {
+  DRAFT = 'draft',
+  PUBLISHED = 'published',
+  SNAPSHOT = 'snapshot'
+}
+
 @ObjectType('PortfolioVersion')
 @Entity()
 export default class PortfolioVersion {
