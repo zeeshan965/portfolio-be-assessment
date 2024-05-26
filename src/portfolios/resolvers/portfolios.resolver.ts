@@ -3,6 +3,7 @@ import { Inject, Service } from 'typedi';
 import Portfolio from '../entities/portfolio.entity';
 import { PortfolioService } from '../services/portfolios.service';
 import { CreatePortfolioDto } from '../dto/create-portfolio.dto';
+import PortfolioVersion from '../entities/portfolio-version.entity';
 
 @Resolver()
 @Service()
@@ -14,8 +15,8 @@ export default class PortfoliosResolver {
    * @return Promise<Portfolio[]>
    */
   @Query(() => [Portfolio], { description: 'List all portfolios' })
-  async listPublishedPortfolio(): Promise<Portfolio[]> {
-    return this.portfolioService.listPublishedPortfolio();
+  async getAllAvailablePortfolioVersions(): Promise<Portfolio[]> {
+    return this.portfolioService.getAllAvailablePortfolioVersions();
   }
 
   /**
@@ -26,6 +27,16 @@ export default class PortfoliosResolver {
   async getPortfolioById(@Arg('id', () => Int) id: number): Promise<Portfolio> {
     return this.portfolioService.getPortfolioById(id);
   }
+
+  /**
+   * @param {number} versionId
+   * @return Promise<PortfolioVersion>
+   */
+  @Query(() => PortfolioVersion)
+  async getPortfolioPagesByVersion(@Arg('versionId', () => Int) versionId: number): Promise<PortfolioVersion> {
+    return this.portfolioService.getPortfolioPagesByVersion(versionId);
+  }
+  // fetch all portfolio pages for a given portfolio version
 
   /**
    * @param {CreatePortfolioDto} createPortfolioDto

@@ -12,6 +12,7 @@ export default class PortfolioVersion extends AbstractEntity {
   @Column('enum', { name: 'version_type', enum: VersionType })
   versionType: VersionType;
 
+  @Field(() => Portfolio)
   @ManyToOne(() => Portfolio, (portfolio) => portfolio.portfolioVersions)
   @JoinColumn({ name: 'portfolio_id' })
   portfolio: Portfolio;

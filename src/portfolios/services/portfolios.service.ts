@@ -60,7 +60,7 @@ export class PortfolioService {
   /**
    * @return Promise<Portfolio[]>
    */
-  async listPublishedPortfolio(): Promise<Portfolio[]> {
+  async getAllAvailablePortfolioVersions(): Promise<Portfolio[]> {
     return this.portfolioRepository
       .createQueryBuilder('p')
       .innerJoinAndSelect('p.portfolioVersions', 'pv')
@@ -77,6 +77,16 @@ export class PortfolioService {
   async getPortfolioById(id: number): Promise<Portfolio> {
     return this.portfolioRepository.findOneOrFail(id, {
       relations: ['portfolioVersions', 'portfolioVersions.portfolioPages', 'portfolioVersions.portfolioPages.page'],
+    });
+  }
+
+  /**
+   * @param {number} versionId
+   * @return Promise<Portfolio>
+   */
+  async getPortfolioPagesByVersion(versionId: number): Promise<PortfolioVersion> {
+    return this.portfolioVersionRepository.findOneOrFail(versionId, {
+      relations: ['portfolio', 'portfolioPages', 'portfolioPages.page'],
     });
   }
 
